@@ -15,7 +15,7 @@
     [ds]
     (.stringify js/JSON (clj->js ds)))
 
-(defn send-message [message] 
+(defn send-message [message]    
     (let [json (clj->json message) ws @connection]
         (.send ws json)))
 
@@ -24,7 +24,14 @@
         (str (if secure "wss" "ws") "://" url "/handler")))
 
 (defn event-connection-on-open [event]
-    (send-message {:hello "testName"}))
+    (send-message 
+        (let [time (str (.getTime (js/Date.)))]
+            {
+                :commandId time
+                :type "service.hello"
+                :time time
+            }
+        )))
 
 (defn event-connection-on-close [event]
     (js/console.log "Closed"))
