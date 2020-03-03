@@ -4,15 +4,6 @@
         [tester-page-l.core.helpers :refer [to-json-prettify]]
         [tester-page-l.core.helpers :refer [millis-to-time]]))
 
-(defn events-component []
-    [:div
-        (let [commands @received-commands]
-            (if 
-                (nil? commands)
-                    [:p "Don't have received commands"]
-                        (for [command commands] ^{:key (get command :commandId)}
-                            (route-command command))))
-                                [:p "Max 50 events"]])
 
 (defn get-class-of-received-card [command]
     (cond 
@@ -26,4 +17,14 @@
         [:div {:class "card-body"}
             [:pre 
                 (to-json-prettify command)]]])
+
+(defn events-component []
+    [:div
+        (let [commands @received-commands]
+            (if 
+                (nil? commands)
+                    [:p "Don't have received commands"]
+                        (for [command commands] ^{:key (str "command-row-" (get command :commandId))}
+                            [route-command command])))
+                                [:p "Max 50 events"]])
 

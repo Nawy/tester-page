@@ -74,7 +74,7 @@
 
 (defn to-json-prettify
     [ds]
-    (.stringify js/JSON (clj->js ds) (clj->js nil) 2))
+    (.stringify js/JSON (clj->js ds) nil 2))
 
 ;;
 ;; PARSE JSON
